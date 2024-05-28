@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtSql>
+#include "databasemanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +17,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    bool validateUserData(const QString&, const QString&);
 
 private slots:
     void on_actionLogout_triggered();
@@ -31,10 +30,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    // 数据库
-    QSqlDatabase db;
-    void initializeDatabase();
+    DatabaseManager dbManager;
     void loadUserData();
 };
 #endif // MAINWINDOW_H

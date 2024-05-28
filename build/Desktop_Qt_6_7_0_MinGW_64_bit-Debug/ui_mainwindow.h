@@ -91,7 +91,6 @@ public:
         userInfoTableWidget->setObjectName("userInfoTableWidget");
         userInfoTableWidget->setGeometry(QRect(0, 50, 921, 601));
         userInfoTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        userInfoTableWidget->setTextElideMode(Qt::ElideMiddle);
         addUserButton = new QPushButton(UserInformation_tab);
         addUserButton->setObjectName("addUserButton");
         addUserButton->setGeometry(QRect(130, 10, 91, 31));

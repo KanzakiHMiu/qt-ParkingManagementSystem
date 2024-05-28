@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QKeyEvent>
+#include "databasemanager.h"
 
 namespace Ui {
 class login_admin;
@@ -31,6 +32,7 @@ protected:
 
 private:
     Ui::login_admin *ui;
+    DatabaseManager dbManager;
 };
 
 #endif // LOGIN_ADMIN_H

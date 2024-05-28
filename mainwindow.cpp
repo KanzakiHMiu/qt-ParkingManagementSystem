@@ -1,13 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "login_admin.h"
 #include "sysabout.h"
+#include "login_admin.h"
 #include <QMessageBox>
 #include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , dbManager()
 {
     ui->setupUi(this);
 
@@ -16,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->userInfoTableWidget->setHorizontalHeaderLabels(QStringList() << "用户名" << "注册日期" << "车牌号");
 
     // 初始化数据库
-    initializeDatabase();
+    dbManager.initializeDatabase();
     // 加载用户数据
     loadUserData();
 }
@@ -26,23 +27,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::initializeDatabase()
-{
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
-    db.setDatabaseName("parking_management_system");
-    db.setUserName("root");
-    db.setPassword("youmumoe.2");
-
-    if (!db.open()) {
-        QMessageBox::critical(this, "数据库连接失败", db.lastError().text());
-        return;
-    }
-}
 
 void MainWindow::loadUserData()
 {
-    QSqlQuery query("SELECT username, registration_date, car_plate FROM users");
+    QSqlQuery query = dbManager.loadUserData();
     while (query.next()) {
         int row = ui->userInfoTableWidget->rowCount();
         ui->userInfoTableWidget->insertRow(row);
@@ -52,38 +40,17 @@ void MainWindow::loadUserData()
     }
 }
 
-bool MainWindow::validateUserData(const QString &username, const QString &carPlate)
-{
-    if (username.isEmpty() || username.length() > 50) {
-        QMessageBox::warning(this, "输入错误", "用户名不能为空且长度不能超过50个字符！");
-        return false;
-    }
-
-    if (carPlate.isEmpty() || carPlate.length() > 20) {
-        QMessageBox::warning(this, "输入错误", "车牌号不能为空且长度不能超过20个字符！");
-        return false;
-    }
-
-    return true;
-}
-
 // 添加用户槽函数
 void MainWindow::on_addUserButton_clicked()
 {
     QString userName = QInputDialog::getText(this, "添加用户", "用户名：");
     QString carPlate = QInputDialog::getText(this, "添加用户", "车牌号：");
 
-    if (validateUserData(userName, carPlate)) {
+    if (dbManager.validateUserData(userName, carPlate)) {
         QString registrationDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
 
-        QSqlQuery query;
-        query.prepare("INSERT INTO users (username, registration_date, car_plate) VALUES (:username, :registration_date, :car_plate)");
-        query.bindValue(":username", userName);
-        query.bindValue(":registration_date", registrationDate);
-        query.bindValue(":car_plate", carPlate);
-
-        if (!query.exec()) {
-            QMessageBox::critical(this, "添加用户失败", query.lastError().text());
+        if (!dbManager.addUser(userName, registrationDate, carPlate)) {
+            QMessageBox::critical(this, "添加用户失败", "添加用户失败");
             return;
         }
 
@@ -109,12 +76,8 @@ void MainWindow::on_deleteUserButton_clicked()
         reply = QMessageBox::question(this, "确认删除", "您确定要删除用户 " + userName + " 吗？",
                                       QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes) {
-            QSqlQuery query;
-            query.prepare("DELETE FROM users WHERE username = :username");
-            query.bindValue(":username", userName);
-
-            if (!query.exec()) {
-                QMessageBox::critical(this, "删除用户失败", query.lastError().text());
+            if (!dbManager.deleteUser(userName)) {
+                QMessageBox::critical(this, "删除用户失败", "删除用户失败");
                 return;
             }
 
@@ -136,15 +99,9 @@ void MainWindow::on_modifyUserButton_clicked()
         QString newUserName = QInputDialog::getText(this, "修改用户信息", "用户名：", QLineEdit::Normal, oldUserName);
         QString newCarPlate = QInputDialog::getText(this, "修改用户信息", "车牌号：", QLineEdit::Normal, ui->userInfoTableWidget->item(currentRow, 2)->text());
 
-        if (validateUserData(newUserName, newCarPlate)) {
-            QSqlQuery query;
-            query.prepare("UPDATE users SET username = :newUsername, car_plate = :newCarPlate WHERE username = :oldUsername");
-            query.bindValue(":newUsername", newUserName);
-            query.bindValue(":newCarPlate", newCarPlate);
-            query.bindValue(":oldUsername", oldUserName);
-
-            if (!query.exec()) {
-                QMessageBox::critical(this, "修改用户信息失败", query.lastError().text());
+        if (dbManager.validateUserData(newUserName, newCarPlate)) {
+            if (!dbManager.modifyUser(oldUserName, newUserName, newCarPlate)) {
+                QMessageBox::critical(this, "修改用户信息失败", "修改用户信息失败");
                 return;
             }
 
