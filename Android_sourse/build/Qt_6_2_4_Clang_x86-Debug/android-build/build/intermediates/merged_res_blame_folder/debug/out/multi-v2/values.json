@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\parkingsystem\\qt-ParkingManagementSystem\\Android_sourse\\build\\Qt_6_2_4_Clang_x86-Debug\\android-build\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\parkingsystem\\qt-ParkingManagementSystem\\Android_sourse\\build\\Qt_6_2_4_Clang_x86-Debug\\android-build\\res\\values\\libs.xml",
+                    "from": {
+                        "startLines": "-1,-1,8,-1,-1,-1",
+                        "startColumns": "-1,-1,4,-1,-1,-1",
+                        "startOffsets": "-1,-1,211,-1,-1,-1",
+                        "endLines": "-1,-1,14,-1,-1,-1",
+                        "endColumns": "-1,-1,12,-1,-1,-1",
+                        "endOffsets": "-1,-1,433,-1,-1,-1"
+                    },
+                    "to": {
+                        "startLines": "2,5,8,15,17,19",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,109,223,448,607,746",
+                        "endLines": "4,7,14,15,17,19",
+                        "endColumns": "12,12,12,50,40,47",
+                        "endOffsets": "104,218,443,494,643,789"
+                    }
+                },
+                {
+                    "source": "D:\\QT\\6.2.4\\android_x86\\src\\android\\java\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "-1,-1",
+                        "startColumns": "-1,-1",
+                        "startOffsets": "-1,-1"
+                    },
+                    "to": {
+                        "startLines": "16,18",
+                        "startColumns": "4,4",
+                        "startOffsets": "499,648",
+                        "endColumns": "107,97",
+                        "endOffsets": "602,741"
+                    }
+                }
+            ]
+        }
+    ]
+}

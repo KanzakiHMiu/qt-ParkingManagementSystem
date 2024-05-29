@@ -1,0 +1,28 @@
+QMAKE_CXX.QT_COMPILER_STDCXX = 201402L
+QMAKE_CXX.QMAKE_CLANG_MAJOR_VERSION = 11
+QMAKE_CXX.QMAKE_CLANG_MINOR_VERSION = 0
+QMAKE_CXX.QMAKE_CLANG_PATCH_VERSION = 5
+QMAKE_CXX.QMAKE_GCC_MAJOR_VERSION = 4
+QMAKE_CXX.QMAKE_GCC_MINOR_VERSION = 2
+QMAKE_CXX.QMAKE_GCC_PATCH_VERSION = 1
+QMAKE_CXX.COMPILER_MACROS = \
+    QT_COMPILER_STDCXX \
+    QMAKE_CLANG_MAJOR_VERSION \
+    QMAKE_CLANG_MINOR_VERSION \
+    QMAKE_CLANG_PATCH_VERSION \
+    QMAKE_GCC_MAJOR_VERSION \
+    QMAKE_GCC_MINOR_VERSION \
+    QMAKE_GCC_PATCH_VERSION
+QMAKE_CXX.INCDIRS = \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward \
+    D:/software/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/11.0.5/include \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/include
+QMAKE_CXX.LIBDIRS = \
+    D:/software/Android/Sdk/ndk/22.1.7171670/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/11.0.5 \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0 \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/x86_64-w64-mingw32/lib \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/lib \
+    D:/MinGW/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0/mingw64/x86_64-w64-mingw32/sys-root/mingw/lib

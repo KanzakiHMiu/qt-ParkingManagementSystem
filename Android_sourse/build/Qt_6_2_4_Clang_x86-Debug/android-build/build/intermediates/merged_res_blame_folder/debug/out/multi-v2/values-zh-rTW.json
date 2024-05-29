@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\parkingsystem\\qt-ParkingManagementSystem\\Android_sourse\\build\\Qt_6_2_4_Clang_x86-Debug\\android-build\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-rTW\\values-zh-rTW.xml",
+            "map": [
+                {
+                    "source": "D:\\QT\\6.2.4\\android_x86\\src\\android\\java\\res\\values-zh-rTW\\strings.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "57,125",
+                        "endColumns": "66,70",
+                        "endOffsets": "119,191"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,122",
+                        "endColumns": "66,70",
+                        "endOffsets": "117,188"
+                    }
+                }
+            ]
+        }
+    ]
+}
