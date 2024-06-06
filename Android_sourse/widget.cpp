@@ -3,6 +3,7 @@
 #include<QMovie>
 #include<QtSql>
 #include<QMessageBox>
+QString p;
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -29,6 +30,7 @@ Widget::~Widget()
 {
     delete ui;
 }
+
 
 void Widget::on_btnlogin_clicked()
 {
@@ -69,6 +71,7 @@ void Widget::on_btnlogin_clicked()
             f= new first();
             this->close();
             f->show();
+            p=ui->username_2->text();
         }
     }
     this->close();
@@ -80,11 +83,13 @@ void Widget::on_btnreg_clicked()
 {
     QString phone = ui->username_3->text();
     QString password = ui->password_3->text();
+    QString registrationDate=QDateTime::currentDateTime().toString("yyyy-MM-dd");
     // 执行 SQL 查询来验证用户名和密码
     QSqlQuery query;
-    query.prepare("INSERT INTO users (phone, password) VALUES (:phone, :password)");
+    query.prepare("INSERT INTO users (phone, password,registration_date) VALUES (:phone, :password,:registration_date)");
     query.bindValue(":phone", phone);
     query.bindValue(":password", password);
+    query.bindValue(":registration_date",registrationDate);
 
     if (!query.exec()) {
         qDebug() << "Failed to insert data:" << query.lastError().text();

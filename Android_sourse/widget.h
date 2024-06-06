@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include<first.h>
+
+
+extern QString p;
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;

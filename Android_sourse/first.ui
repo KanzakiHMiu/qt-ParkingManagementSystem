@@ -58,7 +58,7 @@ QTabBar::tab
     <enum>QTabWidget::South</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <property name="tabBarAutoHide">
     <bool>true</bool>
@@ -71,6 +71,81 @@ QTabBar::tab
     <attribute name="title">
      <string>首页</string>
     </attribute>
+    <widget class="QStackedWidget" name="changeimage">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>401</width>
+       <height>261</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <property name="styleSheet">
+       <string notr="true">QWidget
+{
+	background-color: rgb(255, 255, 0);
+	image: url(:/sourse_images/222.png);
+}</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <property name="styleSheet">
+       <string notr="true">QWidget
+{
+	background-color: rgb(255,155,255);
+	
+	image: url(:/sourse_images/111.png);
+}</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="nextButton">
+     <property name="geometry">
+      <rect>
+       <x>375</x>
+       <y>120</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+border:none;
+	image: url(:/sourse_images/left.png);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="previousButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+border:none;
+	image: url(:/sourse_images/right.png);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="car">
     <attribute name="title">
@@ -260,7 +335,10 @@ QLineEdit
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>张三</string>
+       <string>姓名</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="car_plate">
@@ -273,7 +351,10 @@ QLineEdit
        </rect>
       </property>
       <property name="text">
-       <string>川A·99999</string>
+       <string>车牌</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="phone">
@@ -286,7 +367,10 @@ QLineEdit
        </rect>
       </property>
       <property name="text">
-       <string>15894658562</string>
+       <string>电话</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="btnchange">
@@ -308,6 +392,22 @@ border:none;
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="email">
+      <property name="geometry">
+       <rect>
+        <x>121</x>
+        <y>140</y>
+        <width>140</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>邮箱</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -340,5 +440,22 @@ border:none;
  <resources>
   <include location="images.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>nextButton</sender>
+   <signal>clicked()</signal>
+   <receiver>changeimage</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

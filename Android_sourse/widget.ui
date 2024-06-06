@@ -73,7 +73,7 @@ QTabBar::tab
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="iconSize">
     <size>
@@ -312,7 +312,7 @@ QPushButton
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="images.qrc">:/sourse_images/2.png</pixmap>
+    <pixmap>:/sourse_images/2.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -349,8 +349,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
