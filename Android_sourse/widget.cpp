@@ -68,14 +68,12 @@ void Widget::on_btnlogin_clicked()
             // 查询结果非空，用户名和密码匹配，登录成功
             qDebug() << "Login successful!";
             QMessageBox::information(this, "登录成功", "登录成功！");
-            f= new first();
+             f= new first();
             this->close();
             f->show();
             p=ui->username_2->text();
         }
     }
-    this->close();
-    f->show();
 }
 
 

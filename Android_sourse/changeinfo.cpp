@@ -34,6 +34,7 @@ void changeinfo::on_btnback_clicked()
     first *f=new first();
     this->close();
     f->show();
+    f->loadData();
 }
 
 void changeinfo::loadData()

@@ -5,7 +5,8 @@
 #include<QTimer>
 #include <QPropertyAnimation>
 #include <QGraphicsOpacityEffect>
-
+#include<QtSql>
+#include<QDataWidgetMapper>
 namespace Ui {
 class first;
 }
@@ -31,6 +32,18 @@ private slots:
 
     void animationFinished();
 
+    void on_btnwallet_clicked();
+
+    void on_btnbill_clicked();
+
+    bool openTable();
+
+    bool openDB();
+
+    void do_currentRowChange(const QModelIndex &current,const QModelIndex &previous);
+
+    void on_bookbtn_clicked();
+
 private:
     Ui::first *ui;
     changeinfo *cginfo;
@@ -40,6 +53,10 @@ private:
     QPropertyAnimation *nextAnimation;
     QGraphicsOpacityEffect *currentEffect;
     QGraphicsOpacityEffect *nextEffect;
+    QSqlTableModel *tabModel;
+    QDataWidgetMapper *dataMapper;
+    QSqlDatabase db;
+    QItemSelectionModel *selModel ;
 };
 
 #endif // FIRST_H
