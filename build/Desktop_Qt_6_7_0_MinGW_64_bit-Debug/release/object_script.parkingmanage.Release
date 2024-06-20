@@ -1,0 +1,16 @@
+release/allowedinout.o
+release/databasemanager.o
+release/login_admin.o
+release/main.o
+release/mainwindow.o
+release/networkmanager.o
+release/opencvrecog.o
+release/spotsrecog.o
+release/sysabout.o
+release/moc_allowedinout.o
+release/moc_login_admin.o
+release/moc_mainwindow.o
+release/moc_networkmanager.o
+release/moc_opencvrecog.o
+release/moc_spotsrecog.o
+release/moc_sysabout.o

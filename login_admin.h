@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QKeyEvent>
-#include "databasemanager.h"
+#include "networkmanager.h"
 
 namespace Ui {
 class login_admin;
@@ -19,6 +19,8 @@ public:
 
 private slots:
     void on_pushButton_login_clicked();
+    void onLoginFinished(QNetworkReply *);
+    void onRequestTimeout();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override
@@ -32,7 +34,7 @@ protected:
 
 private:
     Ui::login_admin *ui;
-    DatabaseManager dbManager;
+    NetworkManager* nwManager;
 };
 
 #endif // LOGIN_ADMIN_H

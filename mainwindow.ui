@@ -189,7 +189,7 @@
         <second>0</second>
         <year>1999</year>
         <month>12</month>
-        <day>31</day>
+        <day>28</day>
        </datetime>
       </property>
       <property name="currentSection">
@@ -215,7 +215,7 @@
         <second>0</second>
         <year>2009</year>
         <month>12</month>
-        <day>30</day>
+        <day>27</day>
        </datetime>
       </property>
       <property name="currentSection">
@@ -225,7 +225,7 @@
        <string>yyyy/MM/dd</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_date">
       <property name="geometry">
        <rect>
         <x>370</x>
@@ -241,6 +241,94 @@
       </property>
       <property name="text">
        <string>~</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="InOutSituation_tab">
+     <attribute name="title">
+      <string>查看出入情况</string>
+     </attribute>
+     <widget class="QDateEdit" name="startDateEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>199</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>1999</year>
+        <month>12</month>
+        <day>27</day>
+       </datetime>
+      </property>
+      <property name="currentSection">
+       <enum>QDateTimeEdit::YearSection</enum>
+      </property>
+      <property name="displayFormat">
+       <string>yyyy/MM/dd</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="searchTransactionButton_2">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>10</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>查询</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_date_2">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>20</y>
+        <width>21</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>~</string>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="endDateEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2009</year>
+        <month>12</month>
+        <day>26</day>
+       </datetime>
+      </property>
+      <property name="currentSection">
+       <enum>QDateTimeEdit::YearSection</enum>
+      </property>
+      <property name="displayFormat">
+       <string>yyyy/MM/dd</string>
       </property>
      </widget>
     </widget>
@@ -261,11 +349,11 @@
        <string/>
       </property>
      </widget>
-     <widget class="QComboBox" name="cameraComboBox">
+     <widget class="QComboBox" name="cameraComboBoxLive">
       <property name="geometry">
        <rect>
-        <x>1040</x>
-        <y>30</y>
+        <x>1050</x>
+        <y>80</y>
         <width>191</width>
         <height>23</height>
        </rect>
@@ -274,10 +362,10 @@
      <widget class="QPushButton" name="switchCameraButton">
       <property name="geometry">
        <rect>
-        <x>1040</x>
-        <y>580</y>
-        <width>191</width>
-        <height>41</height>
+        <x>1060</x>
+        <y>460</y>
+        <width>171</width>
+        <height>51</height>
        </rect>
       </property>
       <property name="font">
@@ -287,6 +375,42 @@
       </property>
       <property name="text">
        <string>切换摄像头</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="cameraLive">
+      <property name="geometry">
+       <rect>
+        <x>1060</x>
+        <y>40</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>实时</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="cameraRecord">
+      <property name="geometry">
+       <rect>
+        <x>1060</x>
+        <y>230</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>录像</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="cameraComboBoxRecord">
+      <property name="geometry">
+       <rect>
+        <x>1050</x>
+        <y>270</y>
+        <width>191</width>
+        <height>23</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -327,7 +451,7 @@
        <string>发布公告</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_announcementEdit">
       <property name="geometry">
        <rect>
         <x>0</x>

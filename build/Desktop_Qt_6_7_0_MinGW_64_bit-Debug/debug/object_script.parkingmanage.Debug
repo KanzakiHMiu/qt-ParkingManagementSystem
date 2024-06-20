@@ -1,0 +1,16 @@
+debug/allowedinout.o
+debug/databasemanager.o
+debug/login_admin.o
+debug/main.o
+debug/mainwindow.o
+debug/networkmanager.o
+debug/opencvrecog.o
+debug/spotsrecog.o
+debug/sysabout.o
+debug/moc_allowedinout.o
+debug/moc_login_admin.o
+debug/moc_mainwindow.o
+debug/moc_networkmanager.o
+debug/moc_opencvrecog.o
+debug/moc_spotsrecog.o
+debug/moc_sysabout.o

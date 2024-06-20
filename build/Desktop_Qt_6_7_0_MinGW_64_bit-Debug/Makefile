@@ -412,6 +412,7 @@ Makefile: ../../parkingmanage.pro ../../../../6.7.0/mingw_64/mkspecs/features/sp
 		../../../../6.7.0/mingw_64/lib/Qt6Widgets.prl \
 		../../../../6.7.0/mingw_64/lib/Qt6Gui.prl \
 		../../../../6.7.0/mingw_64/lib/Qt6Sql.prl \
+		../../../../6.7.0/mingw_64/lib/Qt6Network.prl \
 		../../../../6.7.0/mingw_64/lib/Qt6Core.prl \
 		../../../../6.7.0/mingw_64/lib/Qt6EntryPoint.prl \
 		../../../../6.7.0/mingw_64/mkspecs/features/build_pass.prf
@@ -758,6 +759,7 @@ Makefile: ../../parkingmanage.pro ../../../../6.7.0/mingw_64/mkspecs/features/sp
 ../../../../6.7.0/mingw_64/lib/Qt6Widgets.prl:
 ../../../../6.7.0/mingw_64/lib/Qt6Gui.prl:
 ../../../../6.7.0/mingw_64/lib/Qt6Sql.prl:
+../../../../6.7.0/mingw_64/lib/Qt6Network.prl:
 ../../../../6.7.0/mingw_64/lib/Qt6Core.prl:
 ../../../../6.7.0/mingw_64/lib/Qt6EntryPoint.prl:
 ../../../../6.7.0/mingw_64/mkspecs/features/build_pass.prf:

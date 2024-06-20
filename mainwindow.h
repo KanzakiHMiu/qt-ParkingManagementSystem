@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "databasemanager.h"
+#include "networkmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +32,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DatabaseManager dbManager;
+    NetworkManager manager;
     void loadUserData();
 };
 #endif // MAINWINDOW_H
