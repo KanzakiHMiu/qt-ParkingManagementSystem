@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "sysabout.h"
 #include "login_admin.h"
+#include "AddAvatarDialog.h"
 #include <QMessageBox>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -12,9 +13,19 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , dbManager()
+    , NetManager(new netManager(this))
+    , timer(new QTimer(this))
+    , progressValue(0)
 {
     ui->setupUi(this);
+
+    loadUserData();
+
+    connect(timer, &QTimer::timeout, this, &MainWindow::updateProgressBar);
+    timer->start(40);
+
+    connect(NetManager, &netManager::loadUserDataReply,
+            this, &MainWindow::onLoadUserDataReply);
 }
 
 MainWindow::~MainWindow()
@@ -22,81 +33,98 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::updateProgressBar() {
+    if (progressValue != 90) {
+        progressValue += 1;
+        ui->loadingUserProgressBar->setValue(progressValue);
+    } else {
+        timer->stop();
+    }
+}
+
+QString handleLoadUserDataResponseStatus(const QByteArray& response){
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+    QJsonObject jsonObject = jsonResponse.object();
+    return jsonObject["status"].toString();
+}
+
+QJsonArray handleLoadUserDataResponseData(const QByteArray& response){
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+    QJsonObject jsonObject = jsonResponse.object();
+    return jsonObject["data"].toArray();
+}
+
 void MainWindow::loadUserData()
 {
-
+    QUrl url("http://*:8689/admin/loadusers");
+    NetManager->getRequest(url);
 }
 
-void MainWindow::on_addUserButton_clicked()
+void MainWindow::onLoadUserDataReply(QNetworkReply* reply)
 {
-    QString phone = QInputDialog::getText(this, "添加用户", "手机号：");
-    QString carPlate = QInputDialog::getText(this, "添加用户", "车牌号：");
-    QString password = "123";
+    QByteArray response = reply->readAll();
+    if (handleLoadUserDataResponseStatus(response) == "Internal Server Error") {
+        QMessageBox::warning(this, "登陆失败", "服务端错误，请联系服务器维护人员！");
+    }else if (handleLoadUserDataResponseStatus(response) == "success") {
+        QJsonArray dataArray = handleLoadUserDataResponseData(response);
 
-    if (dbManager.validateUserData(phone, carPlate)) {
-        QString registrationDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        userTabModel = new QStandardItemModel(dataArray.size(), 7, this);
+        userTabModel->setHeaderData(0, Qt::Horizontal, "username");
+        userTabModel->setHeaderData(1, Qt::Horizontal, "phone");
+        userTabModel->setHeaderData(2, Qt::Horizontal, "car_plate");
+        userTabModel->setHeaderData(3, Qt::Horizontal, "password");
+        userTabModel->setHeaderData(4, Qt::Horizontal, "email");
+        userTabModel->setHeaderData(5, Qt::Horizontal, "registration_date");
+        userTabModel->setHeaderData(6, Qt::Horizontal, "avatar");
+        ui->userInfoTableWidget->setModel(userTabModel);
 
-        if (!dbManager.addUser(phone, registrationDate, carPlate)) {
-            QMessageBox::critical(this, "添加用户失败", "添加用户失败");
-            return;
-        }
+        for (int i = 0; i < dataArray.size(); ++i) {
+            QJsonObject item = dataArray[i].toObject();
+            userTabModel->setItem(i, 0, new QStandardItem(item["username"].toString()));
+            userTabModel->setItem(i, 1, new QStandardItem(item["phone"].toString()));
+            userTabModel->setItem(i, 2, new QStandardItem(item["car_plate"].toString()));
+            userTabModel->setItem(i, 3, new QStandardItem(item["password"].toString()));
+            userTabModel->setItem(i, 4, new QStandardItem(item["email"].toString()));
+            userTabModel->setItem(i, 5, new QStandardItem(item["registration_date"].toString()));
 
-        int row = ui->userInfoTableWidget->rowCount();
-        ui->userInfoTableWidget->insertRow(row);
-        ui->userInfoTableWidget->setItem(row, 0, new QTableWidgetItem(userName));
-        ui->userInfoTableWidget->setItem(row, 1, new QTableWidgetItem(registrationDate));
-        ui->userInfoTableWidget->setItem(row, 2, new QTableWidgetItem(carPlate));
-        QMessageBox::information(this, "添加用户", "用户添加成功！");
-    } else {
-        QMessageBox::warning(this, "添加用户", "所有字段都是必填的！");
-    }
-}
-
-void MainWindow::on_deleteUserButton_clicked()
-{
-    int currentRow = ui->userInfoTableWidget->currentRow();
-    if (currentRow >= 0) {
-        QString userName = ui->userInfoTableWidget->item(currentRow, 0)->text();
-
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "确认删除", "您确定要删除用户 " + userName + " 吗？",
-                                      QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            if (!dbManager.deleteUser(userName)) {
-                QMessageBox::critical(this, "删除用户失败", "删除用户失败");
-                return;
+            QPushButton *avatarButton = new QPushButton;
+            if (item["avatar"].toString().isEmpty()) {
+                avatarButton->setText("添加头像");
+            } else {
+                avatarButton->setText("查看头像");
             }
+            QModelIndex index = userTabModel->index(i, 6);
+            ui->userInfoTableWidget->setIndexWidget(index, avatarButton);
 
-            ui->userInfoTableWidget->removeRow(currentRow);
-            QMessageBox::information(this, "删除用户", "用户删除成功！");
+            connect(avatarButton, &QPushButton::clicked,
+                    this, [=](){
+                onAvatarButtonClicked(item["avatar"].toString());
+            });
+            int progress = 95;
+            ui->loadingUserProgressBar->setValue(progress);
         }
-    } else {
-        QMessageBox::warning(this, "删除用户", "请选择要删除的用户！");
+
+        ui->userInfoTableWidget->setColumnWidth(3, 550);
+        ui->userInfoTableWidget->setColumnWidth(4, 150);
+        ui->userInfoTableWidget->setColumnWidth(5, 150);
+        ui->userInfoTableWidget->update();
+
+        ui->loadingUserProgressBar->hide();
     }
 }
 
-void MainWindow::on_modifyUserButton_clicked()
+void MainWindow::onAvatarButtonClicked(const QString &avatarBase64)
 {
-    int currentRow = ui->userInfoTableWidget->currentRow();
-    if (currentRow >= 0) {
-        QString oldUserName = ui->userInfoTableWidget->item(currentRow, 0)->text();
-
-        QString newUserName = QInputDialog::getText(this, "修改用户信息", "用户名：", QLineEdit::Normal, oldUserName);
-        QString newCarPlate = QInputDialog::getText(this, "修改用户信息", "车牌号：", QLineEdit::Normal, ui->userInfoTableWidget->item(currentRow, 2)->text());
-
-        if (dbManager.validateUserData(newUserName, newCarPlate)) {
-            if (!dbManager.modifyUser(oldUserName, newUserName, newCarPlate)) {
-                QMessageBox::critical(this, "修改用户信息失败", "修改用户信息失败");
-                return;
-            }
-
-            ui->userInfoTableWidget->setItem(currentRow, 0, new QTableWidgetItem(newUserName));
-            ui->userInfoTableWidget->setItem(currentRow, 2, new QTableWidgetItem(newCarPlate));
-            QMessageBox::information(this, "修改用户信息", "用户信息修改成功！");
-        }
+    AddAvatarDialog* addAvtDlog = new AddAvatarDialog(this);
+    if (!avatarBase64.isEmpty()) {
+        QByteArray avatarData = QByteArray::fromBase64(avatarBase64.toUtf8());
+        addAvtDlog->setWindowTitle("查看头像");
+        addAvtDlog->getAvatarData(avatarData);
     } else {
-        QMessageBox::warning(this, "修改用户信息", "请选择要修改的用户！");
+        addAvtDlog->setWindowTitle("添加头像");
     }
+
+    addAvtDlog->exec();
 }
 
 void MainWindow::on_actionLogout_triggered()

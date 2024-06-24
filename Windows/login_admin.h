@@ -16,11 +16,11 @@ class login_admin : public QWidget
 public:
     explicit login_admin(QWidget *parent = nullptr);
     ~login_admin();
+    void handleSeccessfulLogin();
 
 private slots:
     void on_pushButton_login_clicked();
     void onLoginReply(QNetworkReply*);
-    void onNetworkError(const QString&);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override

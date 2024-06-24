@@ -30,12 +30,11 @@ void netManager::getRequest(const QUrl& url)
 
 void netManager::onFinished(QNetworkReply *reply)
 {
-    if (reply->error() == QNetworkReply::NoError ||
-        reply->error() == QNetworkReply::AuthenticationRequiredError) {
+    QString replyUrl = reply->url().toString();
+    if (replyUrl.contains("/admin/login")) {
         emit loginReply(reply);
-    }
-    else {
-        emit networkError(reply->errorString());
+    } else if (replyUrl.contains("/admin/loadusers")) {
+        emit loadUserDataReply(reply);
     }
     reply->deleteLater();
 }

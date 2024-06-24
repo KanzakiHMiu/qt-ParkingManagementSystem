@@ -18,7 +18,7 @@ public:
 
 signals:
     void loginReply(QNetworkReply*);
-    void networkError(const QString&);
+    void loadUserDataReply(QNetworkReply*);
 
 private slots:
     void onFinished(QNetworkReply*);

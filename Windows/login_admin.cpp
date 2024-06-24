@@ -15,8 +15,6 @@ login_admin::login_admin(QWidget *parent)
 
     connect(NetManager, &netManager::loginReply,
             this, &login_admin::onLoginReply);
-    connect(NetManager, &netManager::networkError,
-            this, &login_admin::onNetworkError);
 }
 
 login_admin::~login_admin()
@@ -24,11 +22,7 @@ login_admin::~login_admin()
     delete ui;
 }
 
-void login_admin::on_pushButton_login_clicked()
-{
-    QString username = ui->lineEdit_account->text();
-    QString password = ui->lineEdit_password->text();
-
+void handleLogin(const QString& username, const QString& password, netManager*& NetManager) {
     QUrl url("http://*:8689/admin/login");
 
     QJsonObject json;
@@ -40,25 +34,46 @@ void login_admin::on_pushButton_login_clicked()
     NetManager->postRequest(url, data);
 }
 
+QString handleLoginResponseStatus(const QByteArray& response) {
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+    QJsonObject jsonObject = jsonResponse.object();
+    return jsonObject["status"].toString();
+}
+
+QString handleLoginResponseErrors(const QByteArray& response) {
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
+    QJsonObject jsonObject = jsonResponse.object();
+    return jsonObject["error"].toString();
+}
+
+void login_admin::handleSeccessfulLogin()
+{
+    MainWindow* w = new MainWindow;
+    w->show();
+    this->close();
+}
+
+void login_admin::on_pushButton_login_clicked()
+{
+    QString username = ui->lineEdit_account->text();
+    QString password = ui->lineEdit_password->text();
+
+    handleLogin(username, password, NetManager);
+}
+
 void login_admin::onLoginReply(QNetworkReply* reply)
 {
     QByteArray response = reply->readAll();
-    QJsonDocument jsonResponse = QJsonDocument::fromJson(response);
-    QJsonObject jsonObject = jsonResponse.object();
-    QString status = jsonObject["status"].toString();
-
-    if (status == "Login successful") {
+    if (handleLoginResponseErrors(response) == "Invalid request") {
+        QMessageBox::warning(this, "登陆失败", "无效的请求，请联系软件维护人员！");
+    } else if (handleLoginResponseStatus(response) == "Internal Server Error") {
+        QMessageBox::warning(this, "登陆失败", "服务端错误，请联系服务器维护人员！");
+    } else if (handleLoginResponseStatus(response) == "Unauthorized") {
+        QMessageBox::warning(this, "登陆失败", "用户名或密码错误，请重试！");
+    } else if (handleLoginResponseStatus(response) == "Login successful") {
         QMessageBox::information(this, "登录成功", "登录成功！");
-        MainWindow* w = new MainWindow;
-        w->show();
-        this->close();
-    } else {
-        QMessageBox::warning(this, "登录失败", "用户名或密码错误，请重试！");
+        handleSeccessfulLogin();
     }
 }
 
-void login_admin::onNetworkError(const QString &errorString)
-{
-    qDebug() << "Error:" << errorString;
-    QMessageBox::warning(this, "网络错误", "无法连接到服务器，请稍后重试！");
-}
+

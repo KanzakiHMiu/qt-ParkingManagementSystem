@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "databasemanager.h"
+#include <QStandardItemModel>
+#include <QTimer>
+#include "netmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,14 +25,20 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    // 管理用户信息
-    void on_addUserButton_clicked();
-    void on_deleteUserButton_clicked();
-    void on_modifyUserButton_clicked();
+    void onLoadUserDataReply(QNetworkReply*);
+
+    void onAvatarButtonClicked(const QString&);
+
+    void updateProgressBar();
 
 private:
     Ui::MainWindow *ui;
-    DatabaseManager dbManager;
+    netManager* NetManager;
+
+    QTimer *timer;
+    int progressValue;
+    QStandardItemModel* userTabModel;
+
     void loadUserData();
 };
 #endif // MAINWINDOW_H

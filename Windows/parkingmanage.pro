@@ -9,8 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addavatardialog.cpp \
     allowedinout.cpp \
-    databasemanager.cpp \
     login_admin.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,8 +20,8 @@ SOURCES += \
     sysabout.cpp
 
 HEADERS += \
+    addavatardialog.h \
     allowedinout.h \
-    databasemanager.h \
     login_admin.h \
     mainwindow.h \
     netmanager.h \
@@ -30,6 +30,7 @@ HEADERS += \
     sysabout.h
 
 FORMS += \
+    addavatardialog.ui \
     login_admin.ui \
     mainwindow.ui \
     sysabout.ui
@@ -46,3 +47,5 @@ LIBS += G:/qfile/1466900310/FileRecv/opencv/opencv_build/bin/libopencv_calib3d49
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES +=
