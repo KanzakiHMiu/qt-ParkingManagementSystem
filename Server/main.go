@@ -27,11 +27,18 @@ type UserRegisterRequest struct {
 }
 
 type UserInfo struct {
-    Phone    string         `json:"phone"`
-    Username sql.NullString `json:"username"`
-    Email    sql.NullString `json:"email"`
-    CarPlate sql.NullString `json:"car_plate"`
-    Avatar   sql.NullString `json:"avatar"`
+    Username sql.NullString `json:"-"`
+    Password         string `json:"password"`
+    RegistrationDate string `json:"registration_date"`
+    CarPlate sql.NullString `json:"-"`
+    Phone            string `json:"phone"`
+    Email    sql.NullString `json:"-"`
+    Avatar   sql.NullString `json:"-"`
+
+    UsernameStr      string `json:"username"`
+    CarPlateStr      string `json:"car_plate"`
+    EmailStr         string `json:"email"`
+    AvatarStr        string `json:"avatar"`
 }
 
 type UpdateUserInfoRequest struct {
@@ -76,7 +83,7 @@ type RechargeRequest struct {
 }
 
 func main() {
-    dsn := "*:*@tcp(127.0.0.1:3306)/parking_management_system"
+    dsn := "root:youmumoe.2@tcp(127.0.0.1:3306)/parking_management_system"
     db, err := sql.Open("mysql", dsn)
     if err != nil {
         log.Fatal(err)
@@ -87,6 +94,10 @@ func main() {
 
     r.POST("/admin/login", func(c *gin.Context) {
         handleAdminLogin(c, db)
+    })
+
+    r.GET("/admin/loadusers", func(c *gin.Context) {
+        loadUsers(c, db)
     })
 
     r.POST("/user/login", func(c *gin.Context) {
@@ -160,6 +171,44 @@ func handleAdminLogin(c *gin.Context, db *sql.DB) {
         return
     }
     c.JSON(http.StatusOK, gin.H{"status": "Login successful"})
+}
+
+func loadUsers(c *gin.Context, db *sql.DB) {
+    rows, err := db.Query("SELECT username, password, registration_date, car_plate, phone, email, avatar FROM users")
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error"})
+        return
+    }
+    defer rows.Close()
+
+    var users []UserInfo
+    for rows.Next() {
+        var user UserInfo
+        if err := rows.Scan(&user.Username,
+            &user.Password,
+            &user.RegistrationDate,
+            &user.CarPlate,
+            &user.Phone,
+            &user.Email,
+            &user.Avatar);
+        err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error"})
+            return
+        }
+        user.UsernameStr = nullStringToString(user.Username)
+        user.CarPlateStr = nullStringToString(user.CarPlate)
+        user.EmailStr = nullStringToString(user.Email)
+        user.AvatarStr = nullStringToString(user.Avatar)
+
+        users = append(users, user)
+    }
+
+    if err := rows.Err(); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"status": "success", "data": users})
 }
 
 func handleUserLogin(c *gin.Context, db *sql.DB) {
