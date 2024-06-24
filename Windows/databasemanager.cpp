@@ -73,18 +73,3 @@ bool DatabaseManager::validateUserData(const QString &username, const QString &c
 
     return true;
 }
-
-bool DatabaseManager::loginAdmin(const QString &username, const QString &password) {
-    QSqlQuery query;
-    query.prepare("SELECT * FROM admin WHERE username = :username AND password = :password");
-    query.bindValue(":username", username);
-    query.bindValue(":password", password);
-
-    if (!query.exec()) {
-        qDebug() << "Failed to execute query:" << query.lastError().text();
-        QMessageBox::warning(this, "登录失败", "登录失败，请重试！");
-        return false;
-    } else {
-        return query.next();
-    }
-}

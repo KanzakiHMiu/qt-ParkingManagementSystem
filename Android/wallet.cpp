@@ -49,7 +49,7 @@ void wallet::on_backbtn_clicked()
 
 void wallet::loadWalletData()
 {
-    QUrl url("http://43.136.79.145:8689/user/wallet");
+    QUrl url("http://*:8689/user/wallet");
 
     QUrlQuery query;
     query.addQueryItem("phone", p);

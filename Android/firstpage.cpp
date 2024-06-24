@@ -159,7 +159,7 @@ void firstpage::onNetworkError(const QString &errorString)
 
 void firstpage::loadUserData()
 {
-    QUrl url("http://43.136.79.145:8689/user/info");
+    QUrl url("http://*:8689/user/info");
 
     QUrlQuery query;
     query.addQueryItem("phone", p);
@@ -195,7 +195,7 @@ void firstpage::onLoadUserDataReply(QNetworkReply *reply)
 
 void firstpage::loadSpotsData()
 {
-    QUrl url("http://43.136.79.145:8689/parking/spots");
+    QUrl url("http://*:8689/parking/spots");
 
     NetManager->getRequest(url);
 }
@@ -240,7 +240,7 @@ void firstpage::on_bookbtn_clicked()
         return;
     }
 
-    QUrl url("http://43.136.79.145:8689/user/bookspot");
+    QUrl url("http://*:8689/user/bookspot");
     QJsonObject json;
     json["spot_number"] = spotnum;
     json["phone"] = p;

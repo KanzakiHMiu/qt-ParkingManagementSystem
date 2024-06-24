@@ -41,7 +41,7 @@ void pay::on_backbtn_clicked()
 void pay::on_paybtn_clicked()
 {
     QString m = ui->money->text();
-    QUrl url("http://43.136.79.145:8689/user/recharge");
+    QUrl url("http://*:8689/user/recharge");
 
     QJsonObject json;
     json["phone"] = p;

@@ -46,7 +46,7 @@ void changeinfo::onNetworkError(const QString &errorString)
 
 void changeinfo::loadUserData()
 {
-    QUrl url("http://43.136.79.145:8689/user/info");
+    QUrl url("http://*:8689/user/info");
 
     QUrlQuery query;
     query.addQueryItem("phone", p);
@@ -82,7 +82,7 @@ void changeinfo::onLoadUserDataReply(QNetworkReply *reply)
 
 void changeinfo::on_btnsave_clicked()
 {
-    QUrl url("http://43.136.79.145:8689/user/update");
+    QUrl url("http://*:8689/user/update");
 
     QJsonObject json;
     json["phone"] = ui->linephone->text();

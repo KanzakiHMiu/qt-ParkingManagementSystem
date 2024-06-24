@@ -13,6 +13,8 @@ public:
     explicit netManager(QObject *parent = nullptr);
 
     void postRequest(const QUrl&, const QByteArray&);
+    void putRequest(const QUrl&, const QByteArray&);
+    void getRequest(const QUrl&);
 
 signals:
     void loginReply(QNetworkReply*);

@@ -76,7 +76,7 @@ type RechargeRequest struct {
 }
 
 func main() {
-    dsn := "root:youmumoe.2@tcp(127.0.0.1:3306)/parking_management_system"
+    dsn := "*:*@tcp(127.0.0.1:3306)/parking_management_system"
     db, err := sql.Open("mysql", dsn)
     if err != nil {
         log.Fatal(err)

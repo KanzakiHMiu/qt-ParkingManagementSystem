@@ -42,7 +42,7 @@ void bill::onNetworkError(const QString &errorString)
 }
 
 void bill::loadBillingHistory(){
-    QUrl url("http://43.136.79.145:8689/user/billing_history");
+    QUrl url("http://*:8689/user/billing_history");
 
     QUrlQuery query;
     query.addQueryItem("phone", p);

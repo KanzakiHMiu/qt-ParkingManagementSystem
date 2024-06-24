@@ -44,7 +44,7 @@ void Widget::on_btnlogin_clicked()
     QString phone = ui->username_2->text();
     QString password = ui->password_2->text();
 
-    QUrl url("http://43.136.79.145:8689/user/login");
+    QUrl url("http://*:8689/user/login");
 
     QJsonObject json;
     json["phone"] = phone;
@@ -79,7 +79,7 @@ void Widget::on_btnreg_clicked()
     QString password = ui->password_3->text();
     QString registrationDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
 
-    QUrl url("http://43.136.79.145:8689/user/register");
+    QUrl url("http://*:8689/user/register");
 
     QJsonObject json;
     json["phone"] = phone;

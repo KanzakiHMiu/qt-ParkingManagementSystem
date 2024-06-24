@@ -29,7 +29,7 @@ void login_admin::on_pushButton_login_clicked()
     QString username = ui->lineEdit_account->text();
     QString password = ui->lineEdit_password->text();
 
-    QUrl url("http://43.136.79.145:8689/admin/login");
+    QUrl url("http://*:8689/admin/login");
 
     QJsonObject json;
     json["username"] = username;

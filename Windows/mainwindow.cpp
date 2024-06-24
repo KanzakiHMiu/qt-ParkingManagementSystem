@@ -3,6 +3,10 @@
 #include "sysabout.h"
 #include "login_admin.h"
 #include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QDebug>
 #include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,15 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     , dbManager()
 {
     ui->setupUi(this);
-
-    // 初始化用户信息表格
-    ui->userInfoTableWidget->setColumnCount(3);
-    ui->userInfoTableWidget->setHorizontalHeaderLabels(QStringList() << "用户名" << "注册日期" << "车牌号");
-
-    // 初始化数据库
-    dbManager.initializeDatabase();
-    // 加载用户数据
-    loadUserData();
 }
 
 MainWindow::~MainWindow()
@@ -27,29 +22,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::loadUserData()
 {
-    QSqlQuery query = dbManager.loadUserData();
-    while (query.next()) {
-        int row = ui->userInfoTableWidget->rowCount();
-        ui->userInfoTableWidget->insertRow(row);
-        ui->userInfoTableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString()));
-        ui->userInfoTableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString()));
-        ui->userInfoTableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString()));
-    }
+
 }
 
-// 添加用户槽函数
 void MainWindow::on_addUserButton_clicked()
 {
-    QString userName = QInputDialog::getText(this, "添加用户", "用户名：");
+    QString phone = QInputDialog::getText(this, "添加用户", "手机号：");
     QString carPlate = QInputDialog::getText(this, "添加用户", "车牌号：");
+    QString password = "123";
 
-    if (dbManager.validateUserData(userName, carPlate)) {
+    if (dbManager.validateUserData(phone, carPlate)) {
         QString registrationDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
 
-        if (!dbManager.addUser(userName, registrationDate, carPlate)) {
+        if (!dbManager.addUser(phone, registrationDate, carPlate)) {
             QMessageBox::critical(this, "添加用户失败", "添加用户失败");
             return;
         }
@@ -65,7 +52,6 @@ void MainWindow::on_addUserButton_clicked()
     }
 }
 
-// 删除用户槽函数
 void MainWindow::on_deleteUserButton_clicked()
 {
     int currentRow = ui->userInfoTableWidget->currentRow();
@@ -89,7 +75,6 @@ void MainWindow::on_deleteUserButton_clicked()
     }
 }
 
-// 修改用户信息槽函数
 void MainWindow::on_modifyUserButton_clicked()
 {
     int currentRow = ui->userInfoTableWidget->currentRow();

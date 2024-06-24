@@ -15,6 +15,19 @@ void netManager::postRequest(const QUrl &url, const QByteArray &data)
     networkManager->post(request, data);
 }
 
+void netManager::putRequest(const QUrl &url, const QByteArray &data)
+{
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    networkManager->put(request, data);
+}
+
+void netManager::getRequest(const QUrl& url)
+{
+    QNetworkRequest request(url);
+    networkManager->get(request);
+}
+
 void netManager::onFinished(QNetworkReply *reply)
 {
     if (reply->error() == QNetworkReply::NoError ||
